@@ -9,7 +9,7 @@
     <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
     <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
     <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
-
+  
 </head>
     <body>
         <div class="container">
@@ -17,32 +17,36 @@
                 <div class="col-md">
                     <h4 class="mb-5"> Add a review for <strong>{{dealer.full_name}}</strong></h4>
                     <form action = "{% url 'djangoapp:add_review' dealer.id %}" method="post">
-                        <H5>Name:</H5><br>
+                        <H5>Your Name:</H5><br>
                         {% csrf_token %}
-                        <input class="form-control" id="name" name="name" size="30" required></textarea><br>
-                        <H5>Enter the review text:</H5><br>
+                        <input class="form-control" id="name" name="name" size="30" required><br>
+                        <H5>Enter the review content:</H5><br>
                         <textarea class="form-control" id="content" name="content" rows="2" required></textarea><br>
-                
+                        <div class = "form-check mt-5">
+                            <input class="form-check-input" type="checkbox" name="purchasecheck" id="purchasecheck">
+                            <label class="form-check-label">Has purchased car from {{dealer.full_name}} ?<label> <span style="color: gray; font-weight: 300; padding-left: 5px;">(select purchased car information below if checked)</span>
+                        </div>
+                      
                         <div class="d-flex mt-3">
-                            <div class="mr-5">
-                                <h5>Car (model-make-year):</h5><br/>
-                                <select name="car" id="car" class="form-select"><br>
-                                    {% for car in cars %}
-                                        <option selected value={{car.id}}>{{car.name}}-{{car.car.name}}-{{ car.year|date:"Y" }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div>
-                                <h5>Purchase Date:</h5><br/>
-                                <div class = "input-group date" data-provide="datepicker-inline"> 
-                                    <input class="date-own form-control" type="date" name="purchasedate" id="purchasedate"><br>
-                                </div>
+                            <h5>Car (model-make-year):</h5><br/>
+                            <select name="car" id="car" class="form-select"><br>
+                                {% for car in cars %}
+                                    <option selected value={{car.id}}>{{car.name}}-{{car.car.name}}-{{ car.year|date:"Y" }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="d-flex mt-3" >
+                            <h5>Purchase Date:</h5><br/>
+                            <div class = "input-group date" data-provide="datepicker-inline" style="max-width: 200px"> 
+                                <input class="date-own form-control" type="date" name="purchasedate" id="purchasedate"><br>
                             </div>
                         </div>
+                     
                         <button class="btn btn-primary mt-5" type="submit">Add review</button>
                     </form>
                 </div>
             </div>
           </div>
     </body>
+
 </html>
