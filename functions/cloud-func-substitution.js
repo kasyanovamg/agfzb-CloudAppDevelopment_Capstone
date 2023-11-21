@@ -31,43 +31,21 @@ app.use(express.json());
 
 // Define a route to get all dealerships with optional state and ID filters
 app.get('/api/dealership', (req, res) => {
-    const { state } = req.query;
+    const { id, state } = req.query;
 
     // Create a selector object based on query parameters
     const selector = {};
     if (state) {
         selector.state = state.replaceAll('"', ''); //enables usage of "California" instead of California
     }
-
-    const queryOptions = {
-        selector,
-        limit: 10, // Limit the number of documents returned to 10
-    };
-
-    db.find(queryOptions, (err, body) => {
-        if (err) {
-            console.error('Error fetching dealerships:', err);
-            res.status(500).json({ error: 'An error occurred while fetching dealerships.' });
-        } else {
-            const dealerships = body.docs;
-            res.json(dealerships);
-        }
-    });
-});
-
-app.get('/api/review', (req, res) => {
-    const { dealerId } = req.query;
-
-    // Create a selector object based on query parameters
-    const selector = {};
-    
-    if (dealerId) {
-        selector.id = parseInt(dealerId.replaceAll('"', '')); // Filter by "id" with a value of 1
+       
+    if (id) {
+        selector.id = parseInt(id); // Filter by "id" with a value of 1
     }
 
     const queryOptions = {
         selector,
-        limit: 10, // Limit the number of documents returned to 10
+        limit: 100, // Limit the number of documents returned to 10
     };
 
     db.find(queryOptions, (err, body) => {

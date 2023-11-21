@@ -2,15 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {% load static %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
 
 </head>
     <body>
-    <!--Add review form here -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md">
+                    <h4 class="mb-5"> Add a review for <strong>{{dealer.full_name}}</strong></h4>
+                    <form action = "{% url 'djangoapp:add_review' dealer.id %}" method="post">
+                        <H5>Name:</H5><br>
+                        {% csrf_token %}
+                        <input class="form-control" id="name" name="name" size="30" required></textarea><br>
+                        <H5>Enter the review text:</H5><br>
+                        <textarea class="form-control" id="content" name="content" rows="2" required></textarea><br>
+                
+                        <div class="d-flex mt-3">
+                            <div class="mr-5">
+                                <h5>Car (model-make-year):</h5><br/>
+                                <select name="car" id="car" class="form-select"><br>
+                                    {% for car in cars %}
+                                        <option selected value={{car.id}}>{{car.name}}-{{car.car.name}}-{{ car.year|date:"Y" }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div>
+                                <h5>Purchase Date:</h5><br/>
+                                <div class = "input-group date" data-provide="datepicker-inline"> 
+                                    <input class="date-own form-control" type="date" name="purchasedate" id="purchasedate"><br>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary mt-5" type="submit">Add review</button>
+                    </form>
+                </div>
+            </div>
+          </div>
     </body>
 </html>
